@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  mongodb:
+    image: mongo:4.4.6
+    container_name: nosql-db
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+
+  python-app:
+    build: /home/alex/dc_test
+    image: ap_test
+    container_name: ap_test
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongodb
+    environment:
+      FLASK_APP: app.py
+      FLASK_ENV: development
+    links:
+      - mongodb:db
+
+volumes:
+  mongodb_data:
+  
+
+    
